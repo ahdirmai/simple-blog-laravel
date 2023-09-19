@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
     <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+        <a class="navbar-brand" href="{{ route('home') }}">Social Blog</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
             aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
@@ -11,7 +11,11 @@
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/">Home</a></li>
                 @if (Route::has('login'))
                 @auth
-                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/write">Write</a></li>
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ route('post.index') }}">My
+                        Post</a></li>
+
+                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
+                        href="{{ route('post.create') }}">Write</a></li>
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ url('/logout') }}" onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">Logout
                     </a></li>

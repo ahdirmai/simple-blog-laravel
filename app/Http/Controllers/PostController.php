@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Carbon\Carbon;
+use Flasher\Prime\FlasherInterface;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -12,7 +14,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        return view('post.index-post');
     }
 
     /**
@@ -20,23 +22,49 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('post.create-post');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, FlasherInterface $flasher)
     {
-        //
+
+
+        // return $request;
+        $status = 0;
+        if ($request->file('is_published')) {
+            $status = 1;
+        }
+
+
+        $post = Post::create([
+            'title' => $request->title,
+            'sub_title' => $request->sub_title,
+            'slug' => \Str::slug($request->title),
+            'body' => $request->article,
+            'is_published' => $status,
+            'published_at' => Carbon::now(),
+            'user_id' => auth()->user()->id
+        ]);
+        $upImage =  $post->addMediaFromRequest('image')->toMediaCollection('image');
+
+        $flasher->addSuccess('POST CREATED SUCCESSFULLY');
+        return redirect()->route('home');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(Post $post, $slug)
     {
-        //
+        $post = Post::where('slug', $slug)->firstOrFail();
+
+        $data = [
+            'post' => $post
+        ];
+        return view('post.detail-post', $data);
     }
 
     /**

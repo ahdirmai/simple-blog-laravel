@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
@@ -27,4 +25,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('post/create', [App\Http\Controllers\PostController::class, 'create'])->name('post.create');
+Route::get('post/', [App\Http\Controllers\PostController::class, 'index'])->name('post.index');
+Route::POST('post/store', [App\Http\Controllers\PostController::class, 'store'])->name('post.store');
+Route::get('post/{slug}', [App\Http\Controllers\PostController::class, 'show'])->name('post.show');
