@@ -23,13 +23,16 @@
                         <p class="post-meta">
                             Posted by
                             <a href="#!">{{ $post->user->name }}</a>
-                            on {{ $post->published_at }}
+                            on {{ date('d M Y', strtotime($post->published_at))}} || {{
+                            \Carbon\Carbon::parse($post->published_at)->diffForHumans()}}
                         </p>
                     </div>
                     <div class="col-1">
                         @if ($post->user->id == @Auth::user()->id)
                         <a class="btn btn-info btn-sm text-white" href="{{ route('post.edit', $post->slug ) }}">Edit</a>
-                        <button class="btn btn-danger btn-sm text-white">Delete</button>
+                        <button class="btn btn-danger btn-sm" data-message="Are you sure delete this post?"
+                            data-bs-toggle="modal" data-bs-target=".modal-delete" data-title="Delete Post"
+                            data-url="{{ route('post.delete',$post->slug) }}">Delete</button>
                         @endif
                     </div>
                 </div>
@@ -50,4 +53,8 @@
     </div>
 </div>
 
+
+@push('modal-section')
+<x-delete-modal class="modal-md"></x-delete-modal>
+@endpush
 @endsection

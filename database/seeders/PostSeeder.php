@@ -25,6 +25,8 @@ class PostSeeder extends Seeder
                 'is_published' => true,
                 'published_at' => now(),
                 'user_id' => 2,
+                'created_at' => now(),
+                'updated_at' => now()
             ],
             [
                 'title' => 'My second post',
@@ -35,6 +37,8 @@ class PostSeeder extends Seeder
                 'is_published' => true,
                 'published_at' => now(),
                 'user_id' => 2,
+                'created_at' => now(),
+                'updated_at' => now()
             ]
         ];
         Post::insert($posts);

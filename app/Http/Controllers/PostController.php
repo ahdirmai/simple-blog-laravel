@@ -7,15 +7,26 @@ use App\Models\Post;
 use Carbon\Carbon;
 use Flasher\Prime\FlasherInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        return view('post.index-post');
+        $posts = Post::where('user_id', Auth::user()->id)->get();
+        $data = [
+            'posts' => $posts
+        ];
+
+        return view('post.index-post', $data);
     }
 
     /**
@@ -120,8 +131,51 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy($slug, FlasherInterface $flasher)
     {
-        //
+
+        // return $slug;
+
+        $post = Post::where('slug', $slug)->first();
+
+        if ($post) {
+            $delete_post = $post->delete();
+            if ($delete_post) {
+
+                $flasher->addSuccess('POST DELETED SUCCESSFULLY');
+                return redirect()->back();
+            }
+        }
+    }
+
+    public function viewStatus($slug)
+    {
+        $post = Post::where('slug', $slug)->first();
+
+        $data = [
+            "url" => route('post.status-change', $slug)
+        ];
+
+        return view('post.status-post', $data);
+    }
+
+    public function changeStatus($slug, FlasherInterface $flasher)
+    {
+        $post = Post::where('slug', $slug)->first();
+        if (!$post->is_published) {
+
+            // return 'masuk';
+            $published_at = Carbon::now();
+        } else {
+            $published_at = null;
+        }
+
+        $post->update([
+            'is_published' => !$post->is_published,
+            'published_at' => $published_at
+        ]);
+
+        $flasher->addSuccess('POST PUBLISHED SUCCESSFULLY');
+        return redirect()->back();
     }
 }

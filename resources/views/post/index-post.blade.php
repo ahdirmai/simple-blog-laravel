@@ -21,66 +21,53 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Cover Image</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach ($posts as $post )
+
                     <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
+                        <th scope="row">{{ $loop->iteration }}</th>
+                        <td>{{ $post->title }}</td>
+                        <td><img src="{{ $post->getFirstMediaURL('image')  }}" class="img-thumbnail"
+                                alt="{{ $post->sub_title }}" style="max-height: 120px">
+                        </td>
+                        <td>{{ $post->is_published?"Published":"Draft" }}</td>
+                        <td>
+                            @if ($post->is_published)
+                            <button class="btn btn-warning btn-sm"
+                                data-url="{{ route('post.status-view',$post->slug) }}" data-bs-toggle="modal"
+                                data-bs-target=".modal-basic" data-title="Unpublish Post">Un
+                                Publish</button>
+                            @else
+                            <button class="btn btn-success btn-sm"
+                                data-url="{{ route('post.status-view',$post->slug) }}" data-bs-toggle="modal"
+                                data-bs-target=".modal-basic" data-title="Publish Post">Publish</button>
+
+                            @endif
+                            <a class="btn btn-info btn-sm" href="{{ route('post.edit', $post->slug ) }}">Edit</a>
+
+                            <button class="btn btn-danger btn-sm" data-message="Are you sure delete this post?"
+                                data-bs-toggle="modal" data-bs-target=".modal-delete" data-title="Delete Post"
+                                data-url="{{ route('post.delete',$post->slug) }}">Delete</button>
+
+                        </td>
                     </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
+                    @endforeach
+
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
-@push('scripts')
-<script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
-
-<script>
-    function previewImage() {
-        var input = document.getElementById('image');
-        var preview = document.getElementById('image-preview');
-
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                preview.src = e.target.result;
-                preview.style.display = 'block';
-            }
-
-            reader.readAsDataURL(input.files[0]);
-        } else {
-            preview.style.display = 'none';
-        }
-    }
-</script>
-
-<script>
-    ClassicEditor
-        .create( document.querySelector( '#article' ) )
-        .catch( error => {
-            console.error( error );
-        } );
-</script>
-
+@push('modal-section')
+<x-basic-modal class="modal-md"></x-basic-modal>
+<x-delete-modal class="modal-md"></x-delete-modal>
 @endpush
 
 @endsection
