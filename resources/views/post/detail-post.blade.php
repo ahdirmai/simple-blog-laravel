@@ -12,7 +12,15 @@
                     <span class="meta">
                         Posted by
                         <a href="#!">{{ $post->user->name }}</a>
-                        on {{ $post->published_at }}
+                        on
+
+                        {{ date('d M Y', strtotime($post->published_at))}} || {{
+                        \Carbon\Carbon::parse($post->published_at)->diffForHumans()}}
+                    </span>
+
+                    <span class="meta">
+                        Last Edited
+                        on {{ @$post->updated_at->diffForHumans() }}
                     </span>
                 </div>
             </div>
@@ -24,7 +32,6 @@
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
-
                 {!! $post->body !!}
             </div>
         </div>

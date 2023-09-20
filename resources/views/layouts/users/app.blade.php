@@ -9,7 +9,7 @@
     <title>Social Blog | @yield('title')</title>
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    {{-- <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script> --}}
     <!-- Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet"
         type="text/css" />
@@ -33,7 +33,41 @@
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="js/scripts.js"></script>
+
+    @stack('modal-section')
+
+    <script>
+        $(document).ready(function($) {
+            $('.modal-basic').on('show.bs.modal',(event) =>{
+                // console.log(button);
+                var button = $(event.relatedTarget)
+                var modal = $(this)
+                var title = button.data('title')
+                var url = button.data('url')
+                // console.log(url);
+                modal.find('.modal-basic-title').text(title)
+                modal.find('.modal-body-custome').load(url)
+            });
+        })
+
+        $(document).ready(function($) {
+            $('.modal-delete').on('show.bs.modal',(event) =>{
+                // console.log(button);
+                var button = $(event.relatedTarget)
+                var modal = $(this)
+                var title = button.data('title')
+                var message = button.data('message')
+                var url = button.data('url')
+                console.log(url);
+                modal.find('.modal-basic-title').text(title)
+                modal.find('.modal-body-custome').html("<p class='text-center'>"+ message+"</p>")
+                modal.find('#form-modal-delete').attr('action',url)
+            });
+        })
+    </script>
 
     @stack('scripts')
 </body>

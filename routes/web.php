@@ -35,4 +35,9 @@ Route::get('post/{slug}/edit', [App\Http\Controllers\PostController::class, 'edi
 Route::PUT('post/{slug}/update', [App\Http\Controllers\PostController::class, 'update'])->name('post.update');
 
 Route::get('post/', [App\Http\Controllers\PostController::class, 'index'])->name('post.index');
+Route::get('post/{slug}/status/view', [App\Http\Controllers\PostController::class, 'viewStatus'])->name('post.status-view');
+Route::PUT('post/{slug}/status/change', [App\Http\Controllers\PostController::class, 'changeStatus'])->name('post.status-change');
+
+Route::DELETE('post/{slug}/delete', [App\Http\Controllers\PostController::class, 'destroy'])->name('post.delete');
+
 Route::get('post/{slug}', [App\Http\Controllers\PostController::class, 'show'])->name('post.show');
