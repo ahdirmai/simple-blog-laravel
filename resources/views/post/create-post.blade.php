@@ -21,8 +21,8 @@
                 @csrf
                 <div class="mb-3">
                     <label for="image" class="form-label">Image</label>
-                    <input type="file" class="form-control @error('image') is-invalid @enderror" id=" image"
-                        name="image" onchange="previewImage()">
+                    <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image"
+                        onchange="previewImage()">
                     @error('image')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -78,6 +78,7 @@
 
 @push('scripts')
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
+
 
 <script>
     function previewImage() {

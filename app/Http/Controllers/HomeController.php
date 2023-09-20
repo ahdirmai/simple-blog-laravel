@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::where('is_published', 1)->get();
 
         $data = [
             'posts' => $posts

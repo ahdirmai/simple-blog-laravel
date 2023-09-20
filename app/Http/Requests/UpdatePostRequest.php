@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePostRequest extends FormRequest
+class UpdatePostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,6 @@ class StorePostRequest extends FormRequest
             'title' => 'required|unique:posts',
             'sub_title' => 'required',
             'article' => 'required',
-            'image' => 'required|mimes:jpeg,png,jpg'
         ];
     }
 
@@ -35,9 +34,7 @@ class StorePostRequest extends FormRequest
             'title.required' => 'Title Must be Filled',
             'title.unique' => 'Title Must be Unique',
             'sub_title.required' => 'Sub Title Must be Filled',
-            'article.required' => 'Content Must be Filled',
-            'image.required' => 'Image is Mandatory',
-            'image.mimes' => 'Upload Should be Image (jpeg,png,jpg)'
+            'article.required' => 'Content Must be Filled'
 
         ];
     }

@@ -32,12 +32,14 @@ class PostController extends Controller
     public function store(StorePostRequest $request, FlasherInterface $flasher)
     {
 
-
         $status = 0;
-        if ($request->file('is_published')) {
+        $published_at = "";
+        if ($request->is_published) {
             $status = 1;
+            $published_at = Carbon::now();
+        } else {
+            $published_at = null;
         }
-
 
         $post = Post::create([
             'title' => $request->title,
@@ -45,7 +47,7 @@ class PostController extends Controller
             'slug' => \Str::slug($request->title),
             'body' => $request->article,
             'is_published' => $status,
-            'published_at' => Carbon::now(),
+            'published_at' => $published_at,
             'user_id' => auth()->user()->id
         ]);
 
@@ -58,7 +60,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post, $slug)
+    public function show($slug)
     {
         $post = Post::where('slug', $slug)->firstOrFail();
 
@@ -71,17 +73,48 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Post $post)
+    public function edit($slug)
     {
-        //
+        $post = Post::where('slug', $slug)->firstOrFail();
+        $data = [
+            'post' => $post
+        ];
+        return view('post.edit-post', $data);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $slug, FlasherInterface $flasher)
     {
-        //
+        $post = Post::where('slug', $slug)->firstOrFail();
+
+        $status = 0;
+        $published_at = "";
+        if ($request->is_published) {
+            $status = 1;
+            $published_at = Carbon::now();
+        } else {
+            $published_at = null;
+        }
+
+        $post->update([
+            'title' => $request->title,
+            'sub_title' => $request->sub_title,
+            'slug' => \Str::slug($request->title),
+            'body' => $request->article,
+            'is_published' => $status,
+            'published_at' => $published_at,
+            'user_id' => auth()->user()->id
+        ]);
+
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $post->clearMediaCollection('images');
+            $post->addMediaFromRequest('image')->toMediaCollection('image');
+        }
+
+        $flasher->addSuccess('Post Edited SUCCESSFULLY');
+        return redirect()->route('home');
     }
 
     /**
