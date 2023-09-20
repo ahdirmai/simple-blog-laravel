@@ -21,20 +21,45 @@
                 @csrf
                 <div class="mb-3">
                     <label for="image" class="form-label">Image</label>
-                    <input type="file" class="form-control" id="image" name="image" required onchange="previewImage()">
+                    <input type="file" class="form-control @error('image') is-invalid @enderror" id=" image"
+                        name="image" onchange="previewImage()">
+                    @error('image')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
+
                 <img id="image-preview" class="mt-2 hero-image" src="#" alt="Preview Gambar" style="display: none">
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="title" name="title" required>
+                    <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title"
+                        value="{{ old('title') }}">
+                    @error('title')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="sub_title" class="form-label">Sub Title</label>
-                    <input type="text" class="form-control" id="sub_title" name="sub_title" required>
+                    <input type="text" class="form-control @error('sub_title') is-invalid @enderror" id="sub_title"
+                        name="sub_title" value="{{ old('sub_title') }}">
+                    @error('sub_title')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="article" class="form-label">Article</label>
-                    <textarea class="form-control" id="article" name="article" rows="5"></textarea>
+                    <textarea class="form-control @error('article') is-invalid @enderror" id="article" name="article"
+                        rows="5">{{ old('article') }}</textarea>
+                    @error('article')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
                 {{-- published using toggle--}}
                 <div class="mb-3">
@@ -80,6 +105,16 @@
         .catch( error => {
             console.error( error );
         } );
+
+        $("form").submit( function(e) {
+            var messageLength = CKEDITOR.instances['editor'].getData().replace(/<[^>]*>/gi, '').length;
+            if( !messageLength ) {
+                alert( 'Please enter a message' );
+                e.preventDefault();
+            }
+            });
+
+
 </script>
 
 @endpush

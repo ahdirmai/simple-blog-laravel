@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePostRequest;
 use App\Models\Post;
 use Carbon\Carbon;
 use Flasher\Prime\FlasherInterface;
@@ -28,11 +29,10 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, FlasherInterface $flasher)
+    public function store(StorePostRequest $request, FlasherInterface $flasher)
     {
 
 
-        // return $request;
         $status = 0;
         if ($request->file('is_published')) {
             $status = 1;
@@ -48,6 +48,7 @@ class PostController extends Controller
             'published_at' => Carbon::now(),
             'user_id' => auth()->user()->id
         ]);
+
         $upImage =  $post->addMediaFromRequest('image')->toMediaCollection('image');
 
         $flasher->addSuccess('POST CREATED SUCCESSFULLY');
