@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +23,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     })->name('dashboard');
 });
 
+Route::get('/foo', function () {
+    Artisan::call('storage:link');
+});
 
 Auth::routes();
 
