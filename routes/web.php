@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\UsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,9 +19,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
-    Route::get('dashboard', function () {
-        return 'Masuk';
-    })->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('users', [UsersController::class, 'index'])->name('users.index');
 });
 
 

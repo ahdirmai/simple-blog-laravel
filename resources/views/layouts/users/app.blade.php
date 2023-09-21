@@ -17,7 +17,7 @@
         href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"
         rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="css/styles.css" rel="stylesheet" />
+    <link href="{{ asset('user/css/styles.css') }}" rel="stylesheet" />
     @stack('styles')
 </head>
 
@@ -35,19 +35,17 @@
     <!-- Core theme JS-->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="js/scripts.js"></script>
+    <script src="{{ asset('user/js/scripts.js') }}"></script>
 
     @stack('modal-section')
 
     <script>
         $(document).ready(function($) {
             $('.modal-basic').on('show.bs.modal',(event) =>{
-                // console.log(button);
                 var button = $(event.relatedTarget)
                 var modal = $(this)
                 var title = button.data('title')
                 var url = button.data('url')
-                // console.log(url);
                 modal.find('.modal-basic-title').text(title)
                 modal.find('.modal-body-custome').load(url)
             });
