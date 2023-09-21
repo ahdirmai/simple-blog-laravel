@@ -1,7 +1,7 @@
 <form action="{{ $url }}" method="POST">
 
-    <p class="">
-        Publish/UnPublish
+    <p class="text-center">
+        {{ $text }} Post
     </p>
 
     @method('PUT')

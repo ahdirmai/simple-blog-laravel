@@ -1,5 +1,6 @@
 <div>
     <div class="modal fade modal-basic" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        {{-- <p>{{ $message }}</p> --}}
         <div {{ $attributes->merge(['class' => 'modal-dialog']) }} role="document">
             <div class="modal-content">
                 <div class="modal-header">

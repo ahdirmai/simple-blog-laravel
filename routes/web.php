@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\UsersController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +24,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('users', [UsersController::class, 'index'])->name('users.index');
 });
 
+Route::get('/foo', function () {
+    Artisan::call('storage:link');
+});
 
 Auth::routes();
 
