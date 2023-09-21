@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\UsersController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -18,9 +20,10 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
-    Route::get('dashboard', function () {
-        return 'Masuk';
-    })->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('users', [UsersController::class, 'index'])->name('users.index');
+    Route::delete('users/{id}/delete', [UsersController::class, 'destroy'])->name('users.delete');
+    Route::PUT('users/{id}/reset-pass', [UsersController::class, 'resetPassword'])->name('users.reset-pass');
 });
 
 Route::get('/foo', function () {

@@ -1,5 +1,4 @@
 <form action="{{ $url }}" method="POST">
-
     <p class="text-center">
         {{ $text }} Post
     </p>
