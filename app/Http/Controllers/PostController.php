@@ -152,8 +152,14 @@ class PostController extends Controller
     {
         $post = Post::where('slug', $slug)->first();
 
+        if ($post->is_published) {
+            $text = "UNPUBLISH";
+        } else {
+            $text = "PUBLISH";
+        }
         $data = [
-            "url" => route('post.status-change', $slug)
+            "url" => route('post.status-change', $slug),
+            "text" => $text
         ];
 
         return view('post.status-post', $data);
